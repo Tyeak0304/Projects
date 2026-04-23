@@ -1,5 +1,5 @@
-# Cyber-Plague: Lateral Movement Simulator
 # Agentic C++ Coding Project
+# Cyber-Plague: Lateral Movement Simulator
 **Course:** CSE3150 | **Language:** C++17
 
 ## Overview
