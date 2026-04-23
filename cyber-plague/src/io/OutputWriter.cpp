@@ -2,6 +2,7 @@
 #include <fstream>
 #include <iostream>
 #include <stdexcept>
+#include <sstream>
 
 // TODO: Implement OutputWriter::writeResults
 //   Purpose: write a CSV documenting the final infection state of the network
@@ -26,4 +27,22 @@
 void OutputWriter::writeResults(const std::vector<InfectionResult>& results,
                                  const std::string& outputPath) {
     // TODO: Fill in writeResults body
+    std::ofstream outFile(outputPath);
+    if (!outFile.is_open()) {
+        throw std::runtime_error("Failed to open output file: " + outputPath);
+    }
+    outFile << "node_id,accepted_payload,infection_path\n";
+    for (const auto& result : results) {
+        outFile << result.nodeId << "," << result.acceptedPayload << ",";
+        std::ostringstream pathStream;
+        for (size_t i = 0; i < result.infectionPath.size(); ++i) {
+            pathStream << result.infectionPath[i];
+            if (i < result.infectionPath.size() - 1) {
+                pathStream << ":";
+            }
+        }
+        outFile << pathStream.str() << "\n";
+    }
+    outFile.close();
+    std::cout << "Wrote " << results.size() << " infected nodes to " << outputPath << "\n";
 }

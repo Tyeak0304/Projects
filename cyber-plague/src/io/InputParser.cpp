@@ -45,8 +45,60 @@ std::unique_ptr<Network> InputParser::buildNetwork(const std::string& patientZer
     auto network = std::make_unique<Network>();
 
     // TODO: Step 1 — parse hardenedPath into hardenedMap
+        std::unordered_map<uint32_t, int> hardenedMap;
+        std::ifstream hardenedFile(hardenedPath);
+        if (!hardenedFile.is_open()) {
+            throw std::runtime_error("Failed to open hardened nodes file: " + hardenedPath);
+        }
+        std::string line;
+        std::getline(hardenedFile, line); // Skip header
+        while (std::getline(hardenedFile, line)) {
+            std::stringstream ss(line);
+            std::string cell;
+            uint32_t nodeId;
+            int firewallLevel;
+            std::getline(ss, cell, ',');
+            nodeId = std::stoul(cell);
+            std::getline(ss, cell, ',');
+            firewallLevel = std::stoi(cell);
+            hardenedMap[nodeId] = firewallLevel;
+        }
+        hardenedFile.close();
 
     // TODO: Step 2 — parse patientZeroPath, create nodes, assign policies, add to network
+    std::ifstream patientZeroPathFile(patientZeroPath);
+    if (!patientZeroPathFile.is_open()) {
+        throw std::runtime_error("Failed to open patient zero file: " + patientZeroPath);
+    }
+    std::getline(patientZeroPathFile, line); // Skip header
+    while (std::getline(patientZeroPathFile, line)) {
+        std::stringstream ss(line);
+        std::string cell;
+        uint32_t nodeId;
+        std::string payloadName;
+        int exploitEfficiency;
+        int credentialLevel;
+        std::getline(ss, cell, ',');
+        nodeId = std::stoul(cell);
+        std::getline(ss, cell, ',');
+        payloadName = cell;
+        std::getline(ss, cell, ',');
+        exploitEfficiency = std::stoi(cell);
+        std::getline(ss, cell, ',');
+        credentialLevel = std::stoi(cell);
+
+        auto node = std::make_unique<Node> (nodeId, NodeType::WORKSTATION);
+        if (hardenedMap.count(nodeId)){
+            node->policy = std::make_unique<HardenedPolicy>(hardenedMap[nodeId]);
+        } else {
+            node->policy = std::make_unique<StandardPolicy>();
+        }
+        node->state = InfectionState::INFECTED;
+        node->acceptedPayload = payloadName;
+        node->infectionPath = { nodeId };
+        network->addNode(std::move(node));
+    }
+    patientZeroPathFile.close();
 
     // TODO: Step 3 — return network
     return network;
