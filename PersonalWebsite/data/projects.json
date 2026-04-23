@@ -1,0 +1,16 @@
+[
+  {
+    "title": "BGP Simulator",
+    "status": "in-progress",
+    "description": "A Border Gateway Protocol simulator that models how routers exchange routing information across autonomous systems.",
+    "tags": ["Networking", "Python", "BGP"],
+    "link": "https://github.com/tyekukucka/BGP_Simulator"
+  },
+  {
+    "title": "Personal Website",
+    "status": "in-progress",
+    "description": "This personal website — built with vanilla HTML, CSS, and JavaScript. Features a Conway's Game of Life homepage, dynamic project board, and auto-updating resume viewer.",
+    "tags": ["HTML", "CSS", "JavaScript"],
+    "link": ""
+  }
+]

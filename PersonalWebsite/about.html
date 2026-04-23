@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>About — Tye Kukucka</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+  <nav>
+    <a class="nav-brand" href="index.html">TK</a>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="projects.html">Projects</a></li>
+    </ul>
+  </nav>
+
+  <main class="page">
+    <div class="about-layout">
+
+      <div class="about-header">
+        <div class="avatar">👤</div>
+        <div class="about-intro">
+          <h2>Tye Kukucka</h2>
+          <p class="role">Developer &amp; Engineer</p>
+          <p>
+            Passionate about networking, systems programming, and building tools
+            that solve real problems. Always learning, always building.
+          </p>
+        </div>
+      </div>
+
+      <section class="resume-section">
+        <p class="section-heading">Resume</p>
+
+        <div class="resume-actions">
+          <a id="resume-download" class="btn btn-primary" href="resume/resume.pdf" download style="display:none">
+            Download PDF
+          </a>
+          <span id="resume-status" class="resume-status">Checking for resume…</span>
+        </div>
+
+        <div id="resume-container"></div>
+      </section>
+
+    </div>
+  </main>
+
+  <script src="js/nav.js"></script>
+  <script>
+    (() => {
+      const RESUME_PATH = 'resume/resume.pdf';
+      const container   = document.getElementById('resume-container');
+      const statusEl    = document.getElementById('resume-status');
+      const dlBtn       = document.getElementById('resume-download');
+
+      fetch(RESUME_PATH, { method: 'HEAD' })
+        .then(r => {
+          if (!r.ok) throw new Error('not found');
+          // Resume exists — embed it
+          statusEl.textContent = 'Resume loaded';
+          statusEl.classList.add('found');
+          dlBtn.style.display = 'inline-block';
+
+          const embed = document.createElement('object');
+          embed.id   = 'resume-embed';
+          embed.data = RESUME_PATH + '?v=' + Date.now(); // cache-bust on each visit
+          embed.type = 'application/pdf';
+          embed.setAttribute('aria-label', 'Resume PDF');
+
+          // Fallback inside <object> for browsers that can't display PDFs inline
+          const fb = document.createElement('p');
+          fb.innerHTML = `Your browser cannot display the PDF inline.
+            <a href="${RESUME_PATH}" target="_blank">Open it directly</a>.`;
+          embed.appendChild(fb);
+
+          container.appendChild(embed);
+        })
+        .catch(() => {
+          statusEl.textContent = 'No resume found';
+          statusEl.classList.add('missing');
+          container.innerHTML = `
+            <div class="resume-fallback">
+              <p>Drop your resume PDF into the <code>resume/</code> folder and name it
+                <code>resume.pdf</code> — it will appear here automatically.</p>
+              <p style="margin-top:0.75rem; font-size:0.82rem;">
+                Example path: <code>PersonalWebsite/resume/resume.pdf</code>
+              </p>
+            </div>`;
+        });
+    })();
+  </script>
+</body>
+</html>

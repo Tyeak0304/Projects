@@ -1,0 +1,6 @@
+build/
+*.o
+*.a
+*.out
+data/output/
+.DS_Store

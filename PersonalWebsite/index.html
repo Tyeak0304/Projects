@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Tye Kukucka — Personal Website</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+  <nav>
+    <a class="nav-brand" href="index.html">TK</a>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="projects.html">Projects</a></li>
+    </ul>
+  </nav>
+
+  <canvas id="gol-canvas"></canvas>
+
+  <main class="page">
+    <div class="home-overlay">
+      <h1>Welcome to my<br><span>Personal Website</span></h1>
+      <p>I'm Tye — a developer building interesting things at the intersection of networking, systems, and software.</p>
+      <div class="home-ctas">
+        <a class="btn btn-primary" href="projects.html">See my projects</a>
+        <a class="btn btn-secondary" href="about.html">About me</a>
+      </div>
+    </div>
+  </main>
+
+  <p class="gol-hint">Click anywhere on the background to toggle cells</p>
+
+  <script src="js/nav.js"></script>
+  <script src="js/game-of-life.js"></script>
+</body>
+</html>
