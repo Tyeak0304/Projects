@@ -4,7 +4,17 @@
 #include <string>
 #include <memory>
 
-enum class NodeType {
+// TODO: Define NodeType enum (WORKSTATION, SERVER, DOMAIN_CONTROLLER, IOT_DEVICE, GATEWAY, FIREWALL)
+// TODO: Define InfectionState enum (CLEAN, INFECTED, HARDENED)
+// TODO: Forward-declare Policy class
+// TODO: Define Node class
+// TODO: Add fields: id, type, state, acceptedPayload, infectionPath
+// TODO: Add adjacency vectors: providers, peers, customers
+// TODO: Add policy field (unique_ptr<Policy>)
+// TODO: Implement Node constructor, virtual destructor
+// TODO: Implement receivePayload() and isHardened()
+
+enum class NodeType{
     WORKSTATION,
     SERVER,
     DOMAIN_CONTROLLER,
@@ -13,32 +23,19 @@ enum class NodeType {
     FIREWALL
 };
 
-enum class InfectionState {
+enum class infectionState{
     CLEAN,
     INFECTED,
-    HARDENED  // IDS/Firewall active
+    HARDENED
 };
 
 class Policy;
 
-class Node {
-public:
-    uint32_t id;
-    NodeType type;
-    InfectionState state;
-    std::string acceptedPayload;
-    std::vector<uint32_t> infectionPath;
-
-    // Propagation Rank adjacency: up / across / down
-    std::vector<uint32_t> providers;   // up   (Domain Controllers, Servers)
-    std::vector<uint32_t> peers;       // across (Workstations)
-    std::vector<uint32_t> customers;   // down  (IoT, managed devices)
-
-    std::unique_ptr<Policy> policy;
-
-    explicit Node(uint32_t id, NodeType type);
-    virtual ~Node() = default;
-
-    bool receivePayload(const std::string& payload, uint32_t sourceId);
-    bool isHardened() const { return state == InfectionState::HARDENED; }
+class Node{
+    public:
+        uint32_t id;
+        NodeType type;
+        infectionState state;
+        std::string acceptredPayload;
+        std::vector<uint32_t> infectionPath;
 };
