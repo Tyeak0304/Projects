@@ -1,15 +1,8 @@
 #pragma once
 #include "Policy.h"
 
-// Security-hardened node (ROV equivalent).
-// Runs IDS/Firewall logic: drops payloads below a credential threshold
-// and blocks propagation to neighbors.
-class HardenedPolicy : public Policy {
-public:
-    explicit HardenedPolicy(int minCredentialLevel = 2);
-    std::string resolveConflict(const std::vector<Payload>& candidates) override;
-    bool filterIncoming(const Payload& payload) override;
-
-private:
-    int minCredentialLevel_;
-};
+// TODO: Define HardenedPolicy class (inherits Policy)
+// TODO: Add constructor with minCredentialLevel parameter (default 2)
+// TODO: Implement resolveConflict() — IDS/Firewall conflict resolution
+// TODO: Implement filterIncoming() — drop payloads below credential threshold
+// TODO: Add private minCredentialLevel_ field

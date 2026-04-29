@@ -8,6 +8,7 @@
 //      (emplace avoids a copy and takes ownership of the unique_ptr)
 void Network::addNode(std::unique_ptr<Node> node) {
     // TODO: Fill in addNode body
+    nodes.emplace(node->id, std::move(node));
 }
 
 // TODO: Implement Network::addEdge
@@ -25,6 +26,18 @@ void Network::addNode(std::unique_ptr<Node> node) {
 //        "customer"  -> from->customers
 void Network::addEdge(uint32_t fromId, uint32_t toId, const std::string& edgeType) {
     // TODO: Fill in addEdge body
+    Node* fromNode = getNode(fromId);
+    if (!fromNode){
+        return;
+    }
+
+    if(edgeType == "provider"){
+        fromNode->providers.push_back(toId);
+    } else if(edgeType == "peer"){
+        fromNode->peers.push_back(toId);
+    } else if(edgeType == "customer"){
+        fromNode->customers.push_back(toId);
+    }
 }
 
 // TODO: Implement Network::getNode
@@ -35,7 +48,13 @@ void Network::addEdge(uint32_t fromId, uint32_t toId, const std::string& edgeTyp
 //   3. If not found (it == nodes.end()), return nullptr
 Node* Network::getNode(uint32_t id) {
     // TODO: Fill in getNode body
-    return nullptr;
+    auto it = nodes.find(id);
+    if(it != nodes.end()){
+        return it->second.get();
+    }else{
+        return nullptr;
+    }
+    
 }
 
 // TODO: Implement Network::validateTopology
@@ -48,6 +67,15 @@ Node* Network::getNode(uint32_t id) {
 //   3. If hasCycleDFS returns true, throw std::runtime_error with a descriptive message
 void Network::validateTopology() const {
     // TODO: Fill in validateTopology body
+    std::unordered_map<uint32_t, int> visited;
+    for (const auto& pair : nodes) {
+        uint32_t id = pair.first;
+        if (visited[id] == 0){
+            if(hasCycleDFS(id, visited)){
+                throw std::runtime_error("Cycle detected in network topology involving node ID: " + std::to_string(id));           
+            }
+        }
+    }
 }
 
 // TODO: Implement Network::hasCycleDFS (private helper)
@@ -62,8 +90,29 @@ void Network::validateTopology() const {
 //        b. If visited[neighbor] == 0 -> recurse: if hasCycleDFS returns true, return true
 //   5. Mark visited[nodeId] = 2 (fully processed, safe)
 //   6. Return false
-bool Network::hasCycleDFS(uint32_t nodeId,
-                           std::unordered_map<uint32_t, int>& visited) const {
+bool Network::hasCycleDFS(uint32_t nodeId, std::unordered_map<uint32_t, int>& visited) const {
     // TODO: Fill in hasCycleDFS body
+    visited[nodeId] = 1; // Mark as currently on the DFS stack
+    const Node* currentNode = nodes.at(nodeId).get();
+    for(uint32_t neighborId : currentNode->providers){
+        if(visited[neighborId] == 1){
+            return true; // Cycle found
+        } else if(visited[neighborId] == 0){
+            if(hasCycleDFS(neighborId, visited)){
+                return true; // cycle found in recursion
+            }
+        }
+    }
+        for(uint32_t neighborId : currentNode->customers){
+        if(visited[neighborId] == 1){
+            return true; // Cycle found
+        } else if(visited[neighborId] == 0){
+            if(hasCycleDFS(neighborId, visited)){
+                return true; // cycle found in recursion
+            }
+        }
+    }
+    visited[nodeId] = 2; // Mark as fully processed
+
     return false;
 }
