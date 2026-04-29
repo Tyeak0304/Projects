@@ -23,7 +23,7 @@ enum class NodeType{
     FIREWALL
 };
 
-enum class infectionState{
+enum class InfectionState{
     CLEAN,
     INFECTED,
     HARDENED
@@ -33,9 +33,27 @@ class Policy;
 
 class Node{
     public:
+        //Node fields
         uint32_t id;
         NodeType type;
-        infectionState state;
-        std::string acceptredPayload;
+        InfectionState state;
+        std::string acceptedPayload;
+        std::unique_ptr<Policy> policy;
+
+        //Adjacency lists
         std::vector<uint32_t> infectionPath;
+        std::vector<Node*> providers;
+        std::vector<Node*> peers;
+        std::vector<Node*> customers;
+        
+        //Node Constructor and virtual destructor
+        Node(uint32_t id, NodeType type) : id(id), type(type), state(InfectionState::CLEAN) {}
+        virtual ~Node();
+
+        //receivePayload and isHardened functions
+        virtual bool receivePayload(const std::string& payload, uint32_t sourceId) = 0;
+        
+        bool isHardened() const;
+
+
 };
