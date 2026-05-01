@@ -1,18 +1,18 @@
 #pragma once
 #include "Policy.h"
 
-// TODO: Define HardenedPolicy class (inherits Policy)
-// TODO: Add constructor with minCredentialLevel parameter (default 2)
-// TODO: Implement resolveConflict() — IDS/Firewall conflict resolution
-// TODO: Implement filterIncoming() — drop payloads below credential threshold
-// TODO: Add private minCredentialLevel_ field
-
+// Applied to firewall/IDS nodes — rejects any payload that doesn't meet the minimum credential threshold.
 class HardenedPolicy : public Policy{
     private:
-        uint32_t minCredentialLevel;
+        uint32_t minCredentialLevel_;   // payloads with credentialLevel below this value are dropped
 
     public:
-        HardenedPolicy(uint32_t minCredentialLevel = 2);
+        // Default threshold of 2 means only elevated-privilege payloads pass the filter
+        HardenedPolicy(uint32_t minCredentialLevel_ = 2) : minCredentialLevel_(minCredentialLevel_) {}
+
+        // Same selection logic as StandardPolicy, but only considers payloads that passed filterIncoming
         std::string resolveConflict(const std::vector<Payload>& candidates) override;
+
+        // Returns true only if payload.credentialLevel >= minCredentialLevel_
         bool filterIncoming(const Payload& payload) override;
 };

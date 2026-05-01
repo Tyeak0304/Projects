@@ -3,25 +3,25 @@
 #include <cstdint>
 #include <vector>
 
-// TODO: Define Payload struct (name, exploitEfficiency, credentialLevel, originId)
-// TODO: Define abstract Policy class
-// TODO: Add virtual destructor
-// TODO: Add pure virtual resolveConflict() — returns winning payload name or "" to reject all
-// TODO: Add pure virtual filterIncoming() — returns true if payload passes IDS filter
-
+// A malware payload being propagated through the network
 struct Payload{
     std::string name;
-    double exploitEfficiency;
-    uint32_t credentialLevel;
-    uint32_t originId;
+    double exploitEfficiency;   // effectiveness of the exploit; used as a tiebreaker during conflict resolution
+    uint32_t credentialLevel;   // privilege level required to propagate (higher = more powerful)
+    uint32_t originId;          // ID of the node that first introduced this payload
 };
 
+// Abstract base class — each node holds one Policy that governs how it handles incoming payloads.
+// Subclasses implement the filtering and conflict-resolution logic.
 class Policy{
     public:
         virtual ~Policy() = default;
 
+        // Picks the winning payload from a set of competing candidates.
+        // Returns the winner's name, or "" to reject all candidates.
         virtual std::string resolveConflict(const std::vector<Payload>& candidates) = 0;
 
-        virtual bool filterIncoming(const Payload& payload) =0;
+        // Returns true if the payload is allowed past this node's filter (IDS/firewall check).
+        // Called before resolveConflict — payloads that fail here are never considered.
+        virtual bool filterIncoming(const Payload& payload) = 0;
 };
-

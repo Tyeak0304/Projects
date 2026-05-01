@@ -3,10 +3,8 @@
 #include <vector>
 #include "simulation/Simulator.h"
 
-// TODO: Define OutputWriter class
-// TODO: Add method to write infection_results.csv (node_id, payload, infection_path)
-
 class OutputWriter{
     public:
-        void writeInfectionResults(const std::vector<InfectionResult>& results, const std::string& filename);
+        // Writes one CSV row per infected node: node_id, accepted_payload, colon-separated infection path
+        void writeResults(const std::vector<InfectionResult>& results, const std::string& filename);
 };

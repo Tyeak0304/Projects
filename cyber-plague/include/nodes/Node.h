@@ -4,16 +4,7 @@
 #include <string>
 #include <memory>
 
-// TODO: Define NodeType enum (WORKSTATION, SERVER, DOMAIN_CONTROLLER, IOT_DEVICE, GATEWAY, FIREWALL)
-// TODO: Define InfectionState enum (CLEAN, INFECTED, HARDENED)
-// TODO: Forward-declare Policy class
-// TODO: Define Node class
-// TODO: Add fields: id, type, state, acceptedPayload, infectionPath
-// TODO: Add adjacency vectors: providers, peers, customers
-// TODO: Add policy field (unique_ptr<Policy>)
-// TODO: Implement Node constructor, virtual destructor
-// TODO: Implement receivePayload() and isHardened()
-
+// Models the role of each machine in the simulated network
 enum class NodeType{
     WORKSTATION,
     SERVER,
@@ -23,6 +14,7 @@ enum class NodeType{
     FIREWALL
 };
 
+// Tracks whether a node is clean, actively infected, or hardened (immune)
 enum class InfectionState{
     CLEAN,
     INFECTED,
@@ -33,27 +25,24 @@ class Policy;
 
 class Node{
     public:
-        //Node fields
         uint32_t id;
         NodeType type;
         InfectionState state;
-        std::string acceptedPayload;
-        std::unique_ptr<Policy> policy;
+        std::string acceptedPayload;         // name of the payload currently infecting this node
+        std::unique_ptr<Policy> policy;      // controls how this node filters and accepts payloads
 
-        //Adjacency lists
-        std::vector<uint32_t> infectionPath;
-        std::vector<uint32_t> providers;
-        std::vector<uint32_t> peers;
-        std::vector<uint32_t> customers;
+        std::vector<uint32_t> infectionPath; // ordered list of node IDs the infection traveled through to reach here
+        std::vector<uint32_t> providers;     // upstream neighbors (higher-tier relationships)
+        std::vector<uint32_t> peers;         // lateral neighbors (same-tier relationships)
+        std::vector<uint32_t> customers;     // downstream neighbors (lower-tier relationships)
 
-        //Node Constructor and virtual destructor
         Node(uint32_t id, NodeType type);
         virtual ~Node();
 
-        //receivePayload and isHardened functions
+        // Attempts to infect this node with the given payload from sourceId.
+        // Returns true if the node became newly infected, false if blocked or already infected.
         virtual bool receivePayload(const std::string& payload, uint32_t sourceId);
-        
+
+        // Returns true if this node's state is HARDENED (immune to infection)
         bool isHardened() const;
-
-
 };
