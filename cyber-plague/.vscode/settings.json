@@ -1,0 +1,8 @@
+{
+  "cmake.configureOnOpen": true,
+  "cmake.copyCompileCommands": "${workspaceFolder}/compile_commands.json",
+  "clangd.arguments": [
+    "--compile-commands-dir=${workspaceFolder}",
+    "--query-driver=C:/Program Files/Microsoft Visual Studio/*/*/VC/Tools/MSVC/*/bin/Hostx64/x64/cl.exe"
+  ]
+}
