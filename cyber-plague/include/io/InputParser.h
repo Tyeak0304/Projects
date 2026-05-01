@@ -10,5 +10,7 @@
 class InputParser {
     public: 
         void readPatientZero(const std::string& filename, Network& network);
+        void readHardenedNodes(const std::string& filename, Network& network);
+        std::unique_ptr<Network> buildNetwork(const std::string& patientZeroFile, const std::string& hardenedNodesFile);
     
 };

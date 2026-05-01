@@ -1,6 +1,7 @@
 #pragma once
 #include <string>
 #include <cstdint>
+#include <vector>
 
 // TODO: Define Payload struct (name, exploitEfficiency, credentialLevel, originId)
 // TODO: Define abstract Policy class
@@ -19,7 +20,7 @@ class Policy{
     public:
         virtual ~Policy() = default;
 
-        virtual std::string resolveConflict(const Payload& payload1, const Payload& payload2) =0;
+        virtual std::string resolveConflict(const std::vector<Payload>& candidates) = 0;
 
         virtual bool filterIncoming(const Payload& payload) =0;
 };

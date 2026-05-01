@@ -7,6 +7,6 @@
 
 class StandardPolicy : public Policy{
     public:
-        std::string resolveConflict(const Payload& parload1, const Payload& payload2) override;
+        std::string resolveConflict(const std::vector<Payload>& candidates) override;
         bool filterIncoming(const Payload& payload) override;
 };

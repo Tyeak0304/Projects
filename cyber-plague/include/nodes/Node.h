@@ -42,13 +42,13 @@ class Node{
 
         //Adjacency lists
         std::vector<uint32_t> infectionPath;
-        std::vector<Node*> providers;
-        std::vector<Node*> peers;
-        std::vector<Node*> customers;
+        std::vector<uint32_t> providers;
+        std::vector<uint32_t> peers;
+        std::vector<uint32_t> customers;
 
         //Node Constructor and virtual destructor
-        Node(uint32_t id, NodeType type) : id(id), type(type), state(InfectionState::CLEAN) {}
-        virtual ~Node() = default;
+        Node(uint32_t id, NodeType type);
+        virtual ~Node();
 
         //receivePayload and isHardened functions
         virtual bool receivePayload(const std::string& payload, uint32_t sourceId);

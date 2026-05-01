@@ -1,6 +1,9 @@
 #include "nodes/Node.h"
 #include "policies/Policy.h"
 
+Node::Node(uint32_t id, NodeType type) : id(id), type(type), state(InfectionState::CLEAN) {}
+
+Node::~Node() = default;
 
 bool Node::isHardened() const{
     return state == InfectionState::HARDENED;

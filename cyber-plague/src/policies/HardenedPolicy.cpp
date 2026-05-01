@@ -5,9 +5,7 @@
 //   Purpose: store the minimum credential level required to pass this node's IDS
 //   Steps:
 //   1. Initialize minCredentialLevel_ from the parameter
-HardenedPolicy::HardenedPolicy(int minCredentialLevel) {
-    // TODO: Fill in constructor body
-}
+HardenedPolicy::HardenedPolicy(uint32_t minCredentialLevel) : minCredentialLevel(minCredentialLevel) {}
 
 // TODO: Implement HardenedPolicy::filterIncoming
 //   Purpose: IDS/Firewall logic — drop payloads that don't meet the threshold

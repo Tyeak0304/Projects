@@ -12,7 +12,7 @@ class HardenedPolicy : public Policy{
         uint32_t minCredentialLevel;
 
     public:
-        HardenedPolicy(uint32_t minCredentialLevel = 2) : minCredentialLevel(minCredentialLevel) {}
-        std::string resolveConflict(const Payload& payload1, const Payload& payload2) override;
+        HardenedPolicy(uint32_t minCredentialLevel = 2);
+        std::string resolveConflict(const std::vector<Payload>& candidates) override;
         bool filterIncoming(const Payload& payload) override;
 };

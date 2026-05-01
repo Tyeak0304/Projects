@@ -6,6 +6,8 @@
 //   Steps:
 //   1. Use nodes.emplace(node->id, std::move(node)) to insert
 //      (emplace avoids a copy and takes ownership of the unique_ptr)
+size_t Network::size() const { return nodes.size(); }
+
 void Network::addNode(std::unique_ptr<Node> node) {
     // TODO: Fill in addNode body
     nodes.emplace(node->id, std::move(node));
