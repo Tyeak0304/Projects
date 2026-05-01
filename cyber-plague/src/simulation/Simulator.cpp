@@ -13,7 +13,20 @@
 //        a. Build an InfectionResult {node.id, node.acceptedPayload, node.infectionPath}
 //        b. Push it into results_
 void Simulator::run() {
-    // TODO: Fill in run body
+    network_->validateTopology();
+    std::cout << "Simulation has started... Total nodes: " << network_->size() << std::endl;
+    propagate();
+    for (const auto& [id, node] : network_->getNodes()) {
+        if (node->state == InfectionState::INFECTED) {
+            InfectionResult result{node->id, true, node->infectionPath};
+            results_.push_back(result);
+        }
+    }
+}
+
+
+const std::vector<InfectionResult>& Simulator::getResults() const{
+    return results_;
 }
 
 // TODO: Implement Simulator::propagate (private)
@@ -40,4 +53,47 @@ void Simulator::run() {
 //          d. If receivePayload returns true (newly infected), push neighborId into bfsQueue
 void Simulator::propagate() {
     // TODO: Fill in propagate body
+    std::queue<uint32_t> bfsQueue;
+    for(const auto& [id, node] : network_->getNodes()){
+        if(node->state == InfectionState::INFECTED){
+            bfsQueue.push(id);
+        }
+    }
+    while(!bfsQueue.empty()){
+        uint32_t current = bfsQueue.front();
+        bfsQueue.pop();
+        Node* currentNode = network_->getNode(current);
+        if(currentNode == nullptr || currentNode->state != InfectionState::INFECTED){
+            continue;
+        }
+        for(uint32_t neighborId : currentNode->providers){
+            Node* neighborNode = network_->getNode(neighborId);
+            if(neighborNode == nullptr || neighborNode->state == InfectionState::INFECTED){
+                continue;
+            }
+            if(neighborNode->receivePayload(currentNode->acceptedPayload, current)){
+                bfsQueue.push(neighborId);
+            }
+        }
+        for(uint32_t neighborId : currentNode->peers){
+            Node* neighborNode = network_->getNode(neighborId);
+            if(neighborNode == nullptr || neighborNode->state == InfectionState::INFECTED){
+                continue;
+            }
+            if(neighborNode->receivePayload(currentNode->acceptedPayload, current)){
+                bfsQueue.push(neighborId);
+            }
+        }
+        for(uint32_t neighborId : currentNode->customers){
+            Node* neighborNode = network_->getNode(neighborId);
+            if(neighborNode == nullptr || neighborNode->state == InfectionState::INFECTED){
+                continue;
+            }
+            if(neighborNode->receivePayload(currentNode->acceptedPayload, current)){
+                bfsQueue.push(neighborId);
+            }
+        }
+    }
 }
+
+

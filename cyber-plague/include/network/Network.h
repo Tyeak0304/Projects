@@ -23,6 +23,8 @@ class Network{
         // Call this before running the simulator — a cycle would cause infinite BFS propagation.
         void validateTopology() const;
 
+        const std::unordered_map<uint32_t, std::unique_ptr<Node>>& getNodes() const { return nodes; }
+
     private:
         std::unordered_map<uint32_t, std::unique_ptr<Node>> nodes;
 

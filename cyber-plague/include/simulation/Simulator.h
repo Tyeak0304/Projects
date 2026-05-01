@@ -20,11 +20,10 @@ class Simulator{
 
         const std::vector<InfectionResult>& getResults() const;
 
-        // BFS spread: seeds the queue with all pre-infected nodes, then pushes infection through neighbors.
-        // Propagation order per node: providers first, then peers, then customers (up -> across -> down).
-        void propagate();
+
 
     private:
         std::unique_ptr<Network> network_;
         std::vector<InfectionResult> results_;
+        void propagate();
 };
