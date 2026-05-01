@@ -2,13 +2,6 @@
 #include <queue>
 #include <iostream>
 
-// TODO: Implement the Simulator constructor
-//   Steps:
-//   1. Move the network parameter into network_ using std::move
-Simulator::Simulator(std::unique_ptr<Network> network) {
-    // TODO: Fill in constructor body
-}
-
 // TODO: Implement Simulator::run
 //   Purpose: entry point for the full simulation
 //   Steps:
