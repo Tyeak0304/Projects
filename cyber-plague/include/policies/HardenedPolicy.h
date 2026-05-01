@@ -6,3 +6,13 @@
 // TODO: Implement resolveConflict() — IDS/Firewall conflict resolution
 // TODO: Implement filterIncoming() — drop payloads below credential threshold
 // TODO: Add private minCredentialLevel_ field
+
+class HardenedPolicy : public Policy{
+    private:
+        uint32_t minCredentialLevel;
+
+    public:
+        HardenedPolicy(uint32_t minCredentialLevel = 2) : minCredentialLevel(minCredentialLevel) {}
+        std::string resolveConflict(const Payload& payload1, const Payload& payload2) override;
+        bool filterIncoming(const Payload& payload) override;
+};

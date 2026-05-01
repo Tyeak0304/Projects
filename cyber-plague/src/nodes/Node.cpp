@@ -1,8 +1,5 @@
 #include "nodes/Node.h"
 #include "policies/Policy.h"
-#include <algorithm>
-
-
 
 
 bool Node::isHardened() const{
