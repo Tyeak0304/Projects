@@ -6,7 +6,7 @@
 // Snapshot of a single node's infection state after the simulation completes
 struct InfectionResult{
     uint32_t nodeId;
-    bool acceptedPayload;                // true if this node ended up infected
+    std::string acceptedPayload;         // name of the payload infecting this node
     std::vector<uint32_t> infectionPath; // ordered route the infection traveled to reach this node
 };
 

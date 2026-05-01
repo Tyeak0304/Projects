@@ -18,7 +18,7 @@ void Simulator::run() {
     propagate();
     for (const auto& [id, node] : network_->getNodes()) {
         if (node->state == InfectionState::INFECTED) {
-            InfectionResult result{node->id, true, node->infectionPath};
+            InfectionResult result{node->id, node->acceptedPayload, node->infectionPath};
             results_.push_back(result);
         }
     }
