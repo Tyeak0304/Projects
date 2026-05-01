@@ -45,13 +45,13 @@ class Node{
         std::vector<Node*> providers;
         std::vector<Node*> peers;
         std::vector<Node*> customers;
-        
+
         //Node Constructor and virtual destructor
         Node(uint32_t id, NodeType type) : id(id), type(type), state(InfectionState::CLEAN) {}
-        virtual ~Node();
+        virtual ~Node() = default;
 
         //receivePayload and isHardened functions
-        virtual bool receivePayload(const std::string& payload, uint32_t sourceId) = 0;
+        virtual bool receivePayload(const std::string& payload, uint32_t sourceId);
         
         bool isHardened() const;
 

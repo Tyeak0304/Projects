@@ -2,15 +2,13 @@
 #include "policies/Policy.h"
 #include <algorithm>
 
-// TODO: Implement the Node constructor
-//   1. Initialize id and type from parameters
-//   2. Set state to InfectionState::CLEAN
-//   3. Leave acceptedPayload as empty string
-//   4. Leave infectionPath empty (it will be built during propagation)
-//   5. Leave policy as nullptr (assigned externally by InputParser)
-Node::Node(uint32_t id, NodeType type) {
-    // TODO: Fill in constructor body
+
+
+
+bool Node::isHardened() const{
+    return state == InfectionState::HARDENED;
 }
+
 
 // TODO: Implement receivePayload
 //   Purpose: attempt to infect this node with the given payload
@@ -28,5 +26,15 @@ Node::Node(uint32_t id, NodeType type) {
 //   6. Return true
 bool Node::receivePayload(const std::string& payload, uint32_t sourceId) {
     // TODO: Fill in receivePayload body
-    return false;
+    if(isHardened()){
+        return false;
+    } else if(state == InfectionState::INFECTED && acceptedPayload == payload){
+        return false;
+    } else{
+        state = InfectionState::INFECTED;
+        acceptedPayload = payload;
+        infectionPath.push_back(sourceId);
+        return true;
+    }
 }
+
