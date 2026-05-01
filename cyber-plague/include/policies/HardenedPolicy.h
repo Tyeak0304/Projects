@@ -8,7 +8,7 @@ class HardenedPolicy : public Policy{
 
     public:
         // Default threshold of 2 means only elevated-privilege payloads pass the filter
-        HardenedPolicy(uint32_t minCredentialLevel_ = 2) : minCredentialLevel_(minCredentialLevel_) {}
+        HardenedPolicy(uint32_t minCredentialLevel = 2) : minCredentialLevel_(minCredentialLevel) {}
 
         // Filters candidates through filterIncoming, then picks the winner by credentialLevel (primary)
         // and exploitEfficiency (tiebreaker); returns "" if no candidate clears the threshold
