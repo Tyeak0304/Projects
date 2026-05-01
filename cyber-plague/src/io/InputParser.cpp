@@ -55,14 +55,49 @@ void InputParser::readHardenedNodes(const std::string& filename, Network& networ
         Node* node = network.getNode(nodeId);
         if (node) {
             node->policy = std::make_unique<HardenedPolicy>(firewallLevel);
+            node->state = InfectionState::HARDENED;
         }
     }
 }
 
+void InputParser::readEdges(const std::string& filename, Network& network) {
+    std::ifstream file(filename);
+    if (!file.is_open()) {
+        throw std::runtime_error("Failed to open edges file: " + filename);
+    }
+    std::string line;
+    std::getline(file, line); // skip header
+    while (std::getline(file, line)) {
+        std::stringstream ss(line);
+        std::string cell;
+        uint32_t fromId, toId;
+        std::string edgeType;
+        std::getline(ss, cell, ','); fromId = std::stoul(cell);
+        std::getline(ss, cell, ','); toId = std::stoul(cell);
+        std::getline(ss, edgeType);
+
+        // Auto-create any unknown node as a clean WORKSTATION
+        if (!network.getNode(fromId)) {
+            auto node = std::make_unique<Node>(fromId, NodeType::WORKSTATION);
+            node->policy = std::make_unique<StandardPolicy>();
+            network.addNode(std::move(node));
+        }
+        if (!network.getNode(toId)) {
+            auto node = std::make_unique<Node>(toId, NodeType::WORKSTATION);
+            node->policy = std::make_unique<StandardPolicy>();
+            network.addNode(std::move(node));
+        }
+
+        network.addEdge(fromId, toId, edgeType);
+    }
+}
+
 std::unique_ptr<Network> InputParser::buildNetwork(const std::string& patientZeroPath,
-                                                    const std::string& hardenedPath) {
+                                                    const std::string& hardenedPath,
+                                                    const std::string& edgesPath) {
     auto network = std::make_unique<Network>();
     readPatientZero(patientZeroPath, *network);
+    readEdges(edgesPath, *network);
     readHardenedNodes(hardenedPath, *network);
     return network;
 }

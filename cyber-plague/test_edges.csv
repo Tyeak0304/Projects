@@ -1,0 +1,5 @@
+from_id,to_id,edge_type
+1001,2001,customer
+1001,2002,customer
+2001,3001,customer
+2002,3001,peer

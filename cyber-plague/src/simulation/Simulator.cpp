@@ -66,33 +66,21 @@ void Simulator::propagate() {
         if(currentNode == nullptr || currentNode->state != InfectionState::INFECTED){
             continue;
         }
-        for(uint32_t neighborId : currentNode->providers){
+        auto tryInfect = [&](uint32_t neighborId) {
             Node* neighborNode = network_->getNode(neighborId);
             if(neighborNode == nullptr || neighborNode->state == InfectionState::INFECTED){
-                continue;
+                return;
             }
-            if(neighborNode->receivePayload(currentNode->acceptedPayload, current)){
+            if(neighborNode->receivePayload(currentNode->acceptedPayload)){
+                neighborNode->infectionPath = currentNode->infectionPath;
+                neighborNode->infectionPath.push_back(neighborNode->id);
                 bfsQueue.push(neighborId);
             }
-        }
-        for(uint32_t neighborId : currentNode->peers){
-            Node* neighborNode = network_->getNode(neighborId);
-            if(neighborNode == nullptr || neighborNode->state == InfectionState::INFECTED){
-                continue;
-            }
-            if(neighborNode->receivePayload(currentNode->acceptedPayload, current)){
-                bfsQueue.push(neighborId);
-            }
-        }
-        for(uint32_t neighborId : currentNode->customers){
-            Node* neighborNode = network_->getNode(neighborId);
-            if(neighborNode == nullptr || neighborNode->state == InfectionState::INFECTED){
-                continue;
-            }
-            if(neighborNode->receivePayload(currentNode->acceptedPayload, current)){
-                bfsQueue.push(neighborId);
-            }
-        }
+        };
+
+        for(uint32_t neighborId : currentNode->providers) tryInfect(neighborId);
+        for(uint32_t neighborId : currentNode->peers)     tryInfect(neighborId);
+        for(uint32_t neighborId : currentNode->customers) tryInfect(neighborId);
     }
 }
 

@@ -11,7 +11,7 @@ bool Node::isHardened() const{
 
 // Attempts to infect this node with the given payload sent from sourceId.
 // Blocked if the node is hardened or already carrying the exact same payload.
-bool Node::receivePayload(const std::string& payload, uint32_t sourceId) {
+bool Node::receivePayload(const std::string& payload) {
     if(isHardened()){
         return false;
     } else if(state == InfectionState::INFECTED && acceptedPayload == payload){
@@ -19,7 +19,6 @@ bool Node::receivePayload(const std::string& payload, uint32_t sourceId) {
     } else{
         state = InfectionState::INFECTED;
         acceptedPayload = payload;
-        infectionPath.push_back(sourceId); // record which node sent the infection
         return true;
     }
 }

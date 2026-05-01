@@ -39,9 +39,9 @@ class Node{
         Node(uint32_t id, NodeType type);
         virtual ~Node();
 
-        // Attempts to infect this node with the given payload from sourceId.
+        // Attempts to infect this node with the given payload.
         // Returns true if the node became newly infected, false if blocked or already infected.
-        virtual bool receivePayload(const std::string& payload, uint32_t sourceId);
+        virtual bool receivePayload(const std::string& payload);
 
         // Returns true if this node's state is HARDENED (immune to infection)
         bool isHardened() const;
