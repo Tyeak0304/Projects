@@ -10,7 +10,8 @@ class HardenedPolicy : public Policy{
         // Default threshold of 2 means only elevated-privilege payloads pass the filter
         HardenedPolicy(uint32_t minCredentialLevel_ = 2) : minCredentialLevel_(minCredentialLevel_) {}
 
-        // Same selection logic as StandardPolicy, but only considers payloads that passed filterIncoming
+        // Filters candidates through filterIncoming, then picks the winner by credentialLevel (primary)
+        // and exploitEfficiency (tiebreaker); returns "" if no candidate clears the threshold
         std::string resolveConflict(const std::vector<Payload>& candidates) override;
 
         // Returns true only if payload.credentialLevel >= minCredentialLevel_
