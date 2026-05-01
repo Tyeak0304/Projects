@@ -27,5 +27,4 @@ void OutputWriter::writeResults(const std::vector<InfectionResult>& results,
         outFile << pathStream.str() << "\n";
     }
     outFile.close();
-    std::cout << "Wrote " << results.size() << " infected nodes to " << outputPath << "\n";
 }
