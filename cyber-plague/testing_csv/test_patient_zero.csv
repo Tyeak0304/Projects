@@ -1,0 +1,4 @@
+nodeId,payloadName,exploitEfficiency,credentialLevel
+1001,ransomware_v1,90,3
+1002,spyware_x,75,2
+1003,rootkit_z,60,1

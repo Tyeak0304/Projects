@@ -1,32 +1,28 @@
 #include "nodes/Node.h"
 #include "policies/Policy.h"
-#include <algorithm>
 
-// TODO: Implement the Node constructor
-//   1. Initialize id and type from parameters
-//   2. Set state to InfectionState::CLEAN
-//   3. Leave acceptedPayload as empty string
-//   4. Leave infectionPath empty (it will be built during propagation)
-//   5. Leave policy as nullptr (assigned externally by InputParser)
-Node::Node(uint32_t id, NodeType type) {
-    // TODO: Fill in constructor body
+// Set the node's ID and type, and start it as clean (not infected).
+Node::Node(uint32_t id, NodeType type) : id(id), type(type), state(InfectionState::CLEAN) {}
+
+Node::~Node() = default;
+
+bool Node::isHardened() const {
+    return state == InfectionState::HARDENED;
 }
 
-// TODO: Implement receivePayload
-//   Purpose: attempt to infect this node with the given payload
-//   Parameters:
-//     - payload: name of the incoming malware payload
-//     - sourceId: node ID that is sending the payload
-//   Returns: true if the node became newly infected, false otherwise
-//
-//   Steps:
-//   1. If this node isHardened(), return false immediately (policy blocks it)
-//   2. If this node is already INFECTED with the same payload, return false
-//   3. Otherwise, set state = InfectionState::INFECTED
-//   4. Set acceptedPayload = payload
-//   5. Append sourceId to infectionPath
-//   6. Return true
-bool Node::receivePayload(const std::string& payload, uint32_t sourceId) {
-    // TODO: Fill in receivePayload body
-    return false;
+// Try to infect this node with the given malware payload.
+// The node refuses infection in two situations:
+//   1. It is hardened — protected by a firewall, so nothing gets through.
+//   2. It is already infected with this exact same payload — no change needed.
+// In every other case the node becomes infected and returns true to signal the change.
+bool Node::receivePayload(const std::string& payload) {
+    if (isHardened()) {
+        return false; // firewall blocks all incoming malware
+    } else if (state == InfectionState::INFECTED && acceptedPayload == payload) {
+        return false; // already carrying this payload — nothing to update
+    } else {
+        state = InfectionState::INFECTED;
+        acceptedPayload = payload;
+        return true; // node is now infected
+    }
 }

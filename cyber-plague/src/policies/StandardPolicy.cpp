@@ -1,25 +1,32 @@
 #include "policies/StandardPolicy.h"
 #include <algorithm>
 
-// TODO: Implement StandardPolicy::filterIncoming
-//   Purpose: decide whether an incoming payload is allowed through at all
-//   A StandardPolicy node is not hardened, so it accepts everything
-//   Steps:
-//   1. Always return true (no filtering on a standard node)
+// An unprotected node has no filter at all — it lets every incoming payload through.
+// This simulates a computer with no antivirus or firewall installed.
 bool StandardPolicy::filterIncoming(const Payload& payload) {
-    // TODO: Fill in filterIncoming body
-    return false;
+    return true; // no checks — everything is allowed
 }
 
-// TODO: Implement StandardPolicy::resolveConflict
-//   Purpose: when a node receives multiple competing payloads, pick the winner
-//   Selection priority (analogous to BGP path selection):
-//     1. Highest credentialLevel wins
-//     2. Tiebreak: highest exploitEfficiency wins
-//     3. If candidates is empty, return "" (reject all)
-//   Hint: use std::max_element with a lambda comparator
-//   Returns: the winning payload's name, or "" if candidates is empty
+// When multiple malware payloads are trying to infect this node at the same time,
+// this picks the strongest one using two rules:
+//   1. The payload with the highest credentialLevel wins.
+//   2. If two payloads have equal credentialLevel, the one with higher exploitEfficiency wins.
+// If there are no candidates at all, return an empty string to signal no infection.
 std::string StandardPolicy::resolveConflict(const std::vector<Payload>& candidates) {
-    // TODO: Fill in resolveConflict body
-    return "";
+    if (candidates.empty()) {
+        return ""; // nothing to choose from
+    }
+
+    // std::max_element finds the "greatest" element using the comparison function below.
+    // The comparison returns true when a should lose to b, so the element
+    // that no other element beats is declared the winner.
+    auto winner = std::max_element(candidates.begin(), candidates.end(),
+        [](const Payload& a, const Payload& b) {
+            if (a.credentialLevel != b.credentialLevel) {
+                return a.credentialLevel < b.credentialLevel; // higher credential wins
+            }
+            return a.exploitEfficiency < b.exploitEfficiency; // tiebreak: higher efficiency wins
+        });
+
+    return winner->name;
 }

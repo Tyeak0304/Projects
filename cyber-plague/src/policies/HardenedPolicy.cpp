@@ -1,36 +1,36 @@
 #include "policies/HardenedPolicy.h"
 #include <algorithm>
 
-// TODO: Implement the HardenedPolicy constructor
-//   Purpose: store the minimum credential level required to pass this node's IDS
-//   Steps:
-//   1. Initialize minCredentialLevel_ from the parameter
-HardenedPolicy::HardenedPolicy(int minCredentialLevel) {
-    // TODO: Fill in constructor body
-}
-
-// TODO: Implement HardenedPolicy::filterIncoming
-//   Purpose: IDS/Firewall logic — drop payloads that don't meet the threshold
-//   This is the ROV equivalent: it validates the "route" before accepting it
-//   Steps:
-//   1. Return true ONLY if payload.credentialLevel >= minCredentialLevel_
-//   2. Otherwise return false (payload is dropped, propagation blocked)
+// A hardened node acts like a firewall — it only allows through payloads
+// that are powerful enough (credentialLevel >= the node's minimum threshold).
+// Anything weaker is dropped before it even gets considered.
 bool HardenedPolicy::filterIncoming(const Payload& payload) {
-    // TODO: Fill in filterIncoming body
-    return false;
+    return payload.credentialLevel >= minCredentialLevel_; // too weak? blocked.
 }
 
-// TODO: Implement HardenedPolicy::resolveConflict
-//   Purpose: among payloads that passed filterIncoming, pick the best one
-//   A hardened node is very restrictive — even among passing payloads, prefer
-//   the one with the highest credentialLevel first, then exploitEfficiency
-//   Steps:
-//   1. Filter candidates vector to only those passing filterIncoming
-//      Hint: use std::copy_if into a new vector
-//   2. If the filtered list is empty, return ""
-//   3. Otherwise use std::max_element (same comparator as StandardPolicy)
-//      and return the winner's name
+// From all competing payloads, first discard any that don't clear the firewall,
+// then pick the strongest survivor using the same two rules as StandardPolicy:
+//   1. Highest credentialLevel wins.
+//   2. Highest exploitEfficiency breaks ties.
+// If every payload was blocked by the filter, return an empty string — infection prevented.
 std::string HardenedPolicy::resolveConflict(const std::vector<Payload>& candidates) {
-    // TODO: Fill in resolveConflict body
-    return "";
+    // Keep only payloads that pass the firewall check.
+    std::vector<Payload> filtered;
+    std::copy_if(candidates.begin(), candidates.end(), std::back_inserter(filtered),
+        [this](const Payload& payload) { return filterIncoming(payload); });
+
+    if (filtered.empty()) {
+        return ""; // all payloads were blocked — this node stays safe
+    }
+
+    // Pick the strongest payload from those that cleared the firewall.
+    auto winner = std::max_element(filtered.begin(), filtered.end(),
+        [](const Payload& a, const Payload& b) {
+            if (a.credentialLevel != b.credentialLevel) {
+                return a.credentialLevel < b.credentialLevel; // higher credential wins
+            }
+            return a.exploitEfficiency < b.exploitEfficiency; // tiebreak: higher efficiency wins
+        });
+
+    return winner->name;
 }

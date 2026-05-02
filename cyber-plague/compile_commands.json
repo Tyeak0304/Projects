@@ -1,0 +1,50 @@
+[
+{
+  "directory": "C:/Users/Tyler/OneDrive/Documents/Personal GitHub Repo/cyber-plague/build",
+  "command": "C:\\msys64\\mingw64\\bin\\g++.exe -I\"C:/Users/Tyler/OneDrive/Documents/Personal GitHub Repo/cyber-plague/include\" -g -fsanitize=address,undefined -std=gnu++17 -Wall -Wextra -Wpedantic -o CMakeFiles\\Game.dir\\src\\io\\InputParser.cpp.obj -c \"C:\\Users\\Tyler\\OneDrive\\Documents\\Personal GitHub Repo\\cyber-plague\\src\\io\\InputParser.cpp\"",
+  "file": "C:/Users/Tyler/OneDrive/Documents/Personal GitHub Repo/cyber-plague/src/io/InputParser.cpp",
+  "output": "C:/Users/Tyler/OneDrive/Documents/Personal GitHub Repo/cyber-plague/build/CMakeFiles/Game.dir/src/io/InputParser.cpp.obj"
+},
+{
+  "directory": "C:/Users/Tyler/OneDrive/Documents/Personal GitHub Repo/cyber-plague/build",
+  "command": "C:\\msys64\\mingw64\\bin\\g++.exe -I\"C:/Users/Tyler/OneDrive/Documents/Personal GitHub Repo/cyber-plague/include\" -g -fsanitize=address,undefined -std=gnu++17 -Wall -Wextra -Wpedantic -o CMakeFiles\\Game.dir\\src\\io\\OutputWriter.cpp.obj -c \"C:\\Users\\Tyler\\OneDrive\\Documents\\Personal GitHub Repo\\cyber-plague\\src\\io\\OutputWriter.cpp\"",
+  "file": "C:/Users/Tyler/OneDrive/Documents/Personal GitHub Repo/cyber-plague/src/io/OutputWriter.cpp",
+  "output": "C:/Users/Tyler/OneDrive/Documents/Personal GitHub Repo/cyber-plague/build/CMakeFiles/Game.dir/src/io/OutputWriter.cpp.obj"
+},
+{
+  "directory": "C:/Users/Tyler/OneDrive/Documents/Personal GitHub Repo/cyber-plague/build",
+  "command": "C:\\msys64\\mingw64\\bin\\g++.exe -I\"C:/Users/Tyler/OneDrive/Documents/Personal GitHub Repo/cyber-plague/include\" -g -fsanitize=address,undefined -std=gnu++17 -Wall -Wextra -Wpedantic -o CMakeFiles\\Game.dir\\src\\main.cpp.obj -c \"C:\\Users\\Tyler\\OneDrive\\Documents\\Personal GitHub Repo\\cyber-plague\\src\\main.cpp\"",
+  "file": "C:/Users/Tyler/OneDrive/Documents/Personal GitHub Repo/cyber-plague/src/main.cpp",
+  "output": "C:/Users/Tyler/OneDrive/Documents/Personal GitHub Repo/cyber-plague/build/CMakeFiles/Game.dir/src/main.cpp.obj"
+},
+{
+  "directory": "C:/Users/Tyler/OneDrive/Documents/Personal GitHub Repo/cyber-plague/build",
+  "command": "C:\\msys64\\mingw64\\bin\\g++.exe -I\"C:/Users/Tyler/OneDrive/Documents/Personal GitHub Repo/cyber-plague/include\" -g -fsanitize=address,undefined -std=gnu++17 -Wall -Wextra -Wpedantic -o CMakeFiles\\Game.dir\\src\\network\\Network.cpp.obj -c \"C:\\Users\\Tyler\\OneDrive\\Documents\\Personal GitHub Repo\\cyber-plague\\src\\network\\Network.cpp\"",
+  "file": "C:/Users/Tyler/OneDrive/Documents/Personal GitHub Repo/cyber-plague/src/network/Network.cpp",
+  "output": "C:/Users/Tyler/OneDrive/Documents/Personal GitHub Repo/cyber-plague/build/CMakeFiles/Game.dir/src/network/Network.cpp.obj"
+},
+{
+  "directory": "C:/Users/Tyler/OneDrive/Documents/Personal GitHub Repo/cyber-plague/build",
+  "command": "C:\\msys64\\mingw64\\bin\\g++.exe -I\"C:/Users/Tyler/OneDrive/Documents/Personal GitHub Repo/cyber-plague/include\" -g -fsanitize=address,undefined -std=gnu++17 -Wall -Wextra -Wpedantic -o CMakeFiles\\Game.dir\\src\\nodes\\Node.cpp.obj -c \"C:\\Users\\Tyler\\OneDrive\\Documents\\Personal GitHub Repo\\cyber-plague\\src\\nodes\\Node.cpp\"",
+  "file": "C:/Users/Tyler/OneDrive/Documents/Personal GitHub Repo/cyber-plague/src/nodes/Node.cpp",
+  "output": "C:/Users/Tyler/OneDrive/Documents/Personal GitHub Repo/cyber-plague/build/CMakeFiles/Game.dir/src/nodes/Node.cpp.obj"
+},
+{
+  "directory": "C:/Users/Tyler/OneDrive/Documents/Personal GitHub Repo/cyber-plague/build",
+  "command": "C:\\msys64\\mingw64\\bin\\g++.exe -I\"C:/Users/Tyler/OneDrive/Documents/Personal GitHub Repo/cyber-plague/include\" -g -fsanitize=address,undefined -std=gnu++17 -Wall -Wextra -Wpedantic -o CMakeFiles\\Game.dir\\src\\policies\\HardenedPolicy.cpp.obj -c \"C:\\Users\\Tyler\\OneDrive\\Documents\\Personal GitHub Repo\\cyber-plague\\src\\policies\\HardenedPolicy.cpp\"",
+  "file": "C:/Users/Tyler/OneDrive/Documents/Personal GitHub Repo/cyber-plague/src/policies/HardenedPolicy.cpp",
+  "output": "C:/Users/Tyler/OneDrive/Documents/Personal GitHub Repo/cyber-plague/build/CMakeFiles/Game.dir/src/policies/HardenedPolicy.cpp.obj"
+},
+{
+  "directory": "C:/Users/Tyler/OneDrive/Documents/Personal GitHub Repo/cyber-plague/build",
+  "command": "C:\\msys64\\mingw64\\bin\\g++.exe -I\"C:/Users/Tyler/OneDrive/Documents/Personal GitHub Repo/cyber-plague/include\" -g -fsanitize=address,undefined -std=gnu++17 -Wall -Wextra -Wpedantic -o CMakeFiles\\Game.dir\\src\\policies\\StandardPolicy.cpp.obj -c \"C:\\Users\\Tyler\\OneDrive\\Documents\\Personal GitHub Repo\\cyber-plague\\src\\policies\\StandardPolicy.cpp\"",
+  "file": "C:/Users/Tyler/OneDrive/Documents/Personal GitHub Repo/cyber-plague/src/policies/StandardPolicy.cpp",
+  "output": "C:/Users/Tyler/OneDrive/Documents/Personal GitHub Repo/cyber-plague/build/CMakeFiles/Game.dir/src/policies/StandardPolicy.cpp.obj"
+},
+{
+  "directory": "C:/Users/Tyler/OneDrive/Documents/Personal GitHub Repo/cyber-plague/build",
+  "command": "C:\\msys64\\mingw64\\bin\\g++.exe -I\"C:/Users/Tyler/OneDrive/Documents/Personal GitHub Repo/cyber-plague/include\" -g -fsanitize=address,undefined -std=gnu++17 -Wall -Wextra -Wpedantic -o CMakeFiles\\Game.dir\\src\\simulation\\Simulator.cpp.obj -c \"C:\\Users\\Tyler\\OneDrive\\Documents\\Personal GitHub Repo\\cyber-plague\\src\\simulation\\Simulator.cpp\"",
+  "file": "C:/Users/Tyler/OneDrive/Documents/Personal GitHub Repo/cyber-plague/src/simulation/Simulator.cpp",
+  "output": "C:/Users/Tyler/OneDrive/Documents/Personal GitHub Repo/cyber-plague/build/CMakeFiles/Game.dir/src/simulation/Simulator.cpp.obj"
+}
+]
