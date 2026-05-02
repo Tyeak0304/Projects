@@ -3,4 +3,5 @@ build/
 *.a
 *.out
 data/output/
+Results/infection_results.csv
 .DS_Store

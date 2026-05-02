@@ -12,5 +12,5 @@ set(CMAKE_CXX_FLAGS_DEBUG   "-g -fsanitize=address,undefined")
 include_directories(include)
 
 file(GLOB_RECURSE SOURCES "src/*.cpp")
-add_executable(cyber-game ${SOURCES})
-target_compile_options(cyber-game PRIVATE -Wall -Wextra -Wpedantic)
+add_executable(Game ${SOURCES})
+target_compile_options(Game PRIVATE -Wall -Wextra -Wpedantic)

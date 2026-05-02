@@ -4,27 +4,33 @@
 #include <stdexcept>
 #include <sstream>
 
-// Writes one CSV row per infected node.
-// infection_path is colon-separated (e.g. "1001:2045:3012") so the full path fits in a single CSV field.
+// Write the simulation results to a CSV file — one row per infected node.
+// The infection path is stored as node IDs joined by colons (e.g. "1001:2045:3012")
+// so the entire chain fits neatly inside a single CSV column.
 void OutputWriter::writeResults(const std::vector<InfectionResult>& results,
                                  const std::string& outputPath) {
     std::ofstream outFile(outputPath);
     if (!outFile.is_open()) {
         throw std::runtime_error("Failed to open output file: " + outputPath);
     }
+
+    // Write the header row first so the CSV columns have names.
     outFile << "node_id,accepted_payload,infection_path\n";
+
     for (const auto& result : results) {
         outFile << result.nodeId << "," << result.acceptedPayload << ",";
 
-        // Join path IDs with ":" — index check avoids a trailing colon after the last entry
+        // Build the colon-separated path string.
+        // We check the index to avoid adding a trailing colon after the last ID.
         std::ostringstream pathStream;
         for (size_t i = 0; i < result.infectionPath.size(); ++i) {
             pathStream << result.infectionPath[i];
             if (i < result.infectionPath.size() - 1) {
-                pathStream << ":";
+                pathStream << ":"; // separator between IDs, but not after the last one
             }
         }
         outFile << pathStream.str() << "\n";
     }
+
     outFile.close();
 }
