@@ -8,7 +8,7 @@
 
 Cyber-Plague is a terminal-based simulation of how malware spreads across a computer network. You give it three CSV files — a list of already-infected machines, a list of protected machines, and a map of how all the machines are connected — and it simulates the outbreak wave by wave, showing you exactly which machines got infected, in what order, and through what path.
 
-The simulation is inspired by how real-world internet routing works (specifically BGP — Border Gateway Protocol), where computers exist in a hierarchy: servers above, workstations in the middle, and IoT devices below. Malware in this simulation spreads upward, sideways, and downward through that hierarchy, just like real lateral movement attacks.
+The network is modeled as a hierarchy — servers above, workstations in the middle, and IoT devices below. Malware spreads upward, sideways, and downward through that hierarchy, just like real lateral movement attacks.
 
 ---
 
@@ -118,9 +118,6 @@ cyber-plague/
 
 ## Design Decisions
 
-### Why BGP as the inspiration?
-BGP (Border Gateway Protocol) is how routers on the real internet decide which paths to send traffic through. It has a natural hierarchy — providers, peers, and customers — and real-world malware does spread along these same trust relationships. Modeling the network this way makes the simulation realistic and gives infection spread a meaningful direction rather than just spreading randomly.
-
 ### Why BFS (breadth-first search) for propagation?
 BFS spreads infection one hop at a time, which naturally produces "waves." Every machine one hop from a patient zero gets infected before any machine two hops away. This mirrors how real lateral movement works — an attacker compromises one machine, then uses it to reach the next layer, and so on. It also makes the animation intuitive to watch.
 
@@ -157,10 +154,7 @@ See [tests/README.md](tests/README.md) for a full breakdown of every test case.
 This project used **Claude AI** as a development tool in several areas:
 
 - **Debugging** — identifying logic errors and tracing unexpected behavior through the simulation
-- **Code clarification** — explaining what specific C++ patterns and standard library functions were doing
-- **Comment cleanup** — rewriting technical comments into plain English so the codebase is readable to someone without a C++ background
+- **Code clarification** — clarified some concepts around C++ patterns and standard library functions
 - **Code structure** — cleaning up inconsistent formatting and reorganizing messy sections for readability
 - **Testing** — designing and implementing the pytest suite, including what edge cases to cover and how to structure fixtures
 - **Animated terminal display** — implementing the color-coded animated map feature using ANSI escape codes, including the wave-by-wave redraw loop and the payload color palette
-
-All core logic, architecture decisions, and data structures were designed and written by the student. Claude was used as a tool to improve quality and add polish, similar to how a developer would use a linter, a code reviewer, or documentation tooling.
